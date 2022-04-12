@@ -133,7 +133,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
 
     /* load title list */
     num_title_idx = dvd->vmg->tt_srpt->nr_of_srpts;
-    av_log(h, AV_LOG_INFO, "%d usable titles:\n", num_title_idx);
+    av_log(h, AV_LOG_INFO, "%d usable titles\n", num_title_idx);
     if (num_title_idx < 1) {
         return AVERROR(EIO);
     }
