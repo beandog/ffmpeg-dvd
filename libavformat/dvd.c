@@ -52,6 +52,7 @@ typedef struct {
     dvd_file_t *file;
     int blocks;
     int cells;
+    int chapters;
     int size;
     int offset;
     int title_set;
@@ -193,6 +194,10 @@ static int dvd_open(URLContext *h, const char *path, int flags)
     /* cells */
     dvd->cells = pgc->nr_of_cells;
     av_log(h, AV_LOG_DEBUG, "number of cells for title: %d\n", dvd->cells);
+
+    /* chapters */
+    dvd->chapters = pgc->nr_of_programs;
+    av_log(h, AV_LOG_DEBUG, "number of chapters for title: %d\n", dvd->chapters);
 
     dvd->blocks = DVDFileSize(dvd->file);
     dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
