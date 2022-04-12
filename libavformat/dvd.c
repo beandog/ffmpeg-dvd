@@ -195,7 +195,7 @@ static int64_t dvd_seek(URLContext *h, int64_t pos, int whence)
     if (!dvd || !dvd->dvd) {
         return AVERROR(EFAULT);
     }
-    printf("seek position: %li\n\n", pos);
+    av_log(h, AV_LOG_INFO, "seek position: %d\n", pos);
 
     /*
     switch (whence) {
