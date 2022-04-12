@@ -51,6 +51,7 @@ typedef struct {
     ifo_handle_t *vts;
     dvd_file_t *file;
     int blocks;
+    int cells;
     int size;
     int offset;
     int title_set;
@@ -188,6 +189,10 @@ static int dvd_open(URLContext *h, const char *path, int flags)
         av_log(h, AV_LOG_ERROR, "Program chain is empty\n");
         return AVERROR(EIO);
     }
+
+    /* cells */
+    dvd->cells = pgc->nr_of_cells;
+    av_log(h, AV_LOG_DEBUG, "number of cells for title: %d\n", dvd->cells);
 
     dvd->blocks = DVDFileSize(dvd->file);
     dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
