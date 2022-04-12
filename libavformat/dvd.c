@@ -158,6 +158,12 @@ static int dvd_open(URLContext *h, const char *path, int flags)
         return AVERROR(EIO);
     }
 
+    /* sanity checks on video title set */
+    if(dvd->vts->vts_pgcit == NULL || dvd->vts->vts_ptt_srpt == NULL || dvd->vts->vts_ptt_srpt->title == NULL) {
+        av_log(h, AV_LOG_ERROR, "Video title set is empty\n");
+        return AVERROR(EIO);
+    }
+
     /* open DVD file */
     dvd->file = DVDOpenFile(dvd->dvd, dvd->title_set, DVD_READ_TITLE_VOBS);
     if (dvd->file == 0) {
