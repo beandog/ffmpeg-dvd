@@ -184,6 +184,10 @@ static int dvd_open(URLContext *h, const char *path, int flags)
         av_log(h, AV_LOG_ERROR, "Program chain is broken\n");
         return AVERROR(EIO);
     }
+    if(pgc == NULL || pgc->cell_playback == NULL) {
+        av_log(h, AV_LOG_ERROR, "Program chain is empty\n");
+        return AVERROR(EIO);
+    }
 
     dvd->blocks = DVDFileSize(dvd->file);
     dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
