@@ -105,7 +105,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
     av_strstart(path, DVD_PROTO_PREFIX, &diskname);
 
     dvd->dvd = DVDOpen(diskname);
-    if (!dvd->dvd) {
+    if (dvd->dvd == 0) {
         av_log(h, AV_LOG_ERROR, "DVDOpen() failed\n");
         return AVERROR(EIO);
     }
