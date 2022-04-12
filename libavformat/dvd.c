@@ -113,6 +113,9 @@ static int dvd_open(URLContext *h, const char *path, int flags)
     int ttn;
     const char *diskname = path;
 
+    pgcit_t *vts_pgcit;
+    pgc_t *pgc;
+
     av_strstart(path, DVD_PROTO_PREFIX, &diskname);
 
     dvd->dvd = DVDOpen(diskname);
@@ -170,12 +173,20 @@ static int dvd_open(URLContext *h, const char *path, int flags)
         return AVERROR(EIO);
     }
 
-    dvd->blocks = DVDFileSize(dvd->file);
-    dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
-
     /* get ttn */
     ttn = dvd->vmg->tt_srpt->title[dvd->title - 1].vts_ttn;
     av_log(h, AV_LOG_INFO, "DVD TTN: %d\n", ttn);
+
+    /* open the program chain */
+    vts_pgcit = dvd->vts->vts_pgcit;
+    pgc = vts_pgcit->pgci_srp[dvd->vts->vts_ptt_srpt->title[ttn - 1].ptt[0].pgcn - 1].pgc;
+    if(vts_pgcit->pgci_srp[dvd->vts->vts_ptt_srpt->title[ttn - 1].ptt[0].pgcn - 1].pgc == NULL) {
+        av_log(h, AV_LOG_ERROR, "Program chain is broken\n");
+        return AVERROR(EIO);
+    }
+
+    dvd->blocks = DVDFileSize(dvd->file);
+    dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
 
     /* set cell block offset */
     dvd->offset = 0;
