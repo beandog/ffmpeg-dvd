@@ -151,6 +151,13 @@ static int dvd_open(URLContext *h, const char *path, int flags)
     dvd->title_set = dvd->vmg->tt_srpt->title[dvd->title - 1].title_set_nr;
     av_log(h, AV_LOG_DEBUG, "selected video title set %d\n", dvd->title_set);
 
+    /* load title set IFO */
+    dvd->vts = ifoOpen(dvd->dvd, dvd->title_set);
+    if(dvd->vts == NULL || dvd->vts->vtsi_mat == NULL) {
+        av_log(h, AV_LOG_ERROR, "Opening video title set failed\n");
+        return AVERROR(EIO);
+    }
+
     /* open DVD file */
     dvd->file = DVDOpenFile(dvd->dvd, dvd->title_set, DVD_READ_TITLE_VOBS);
     if (dvd->file == 0) {
