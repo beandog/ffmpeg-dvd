@@ -110,6 +110,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
 {
     DVDContext *dvd = h->priv_data;
     int num_title_idx;
+    int ttn;
     const char *diskname = path;
 
     av_strstart(path, DVD_PROTO_PREFIX, &diskname);
@@ -158,6 +159,10 @@ static int dvd_open(URLContext *h, const char *path, int flags)
 
     dvd->blocks = DVDFileSize(dvd->file);
     dvd->size = dvd->blocks * DVD_VIDEO_LB_LEN;
+
+    /* get ttn */
+    ttn = dvd->vmg->tt_srpt->title[dvd->title - 1].vts_ttn;
+    av_log(h, AV_LOG_INFO, "DVD TTN: %d\n", ttn);
 
     /* set cell block offset */
     dvd->offset = 0;
