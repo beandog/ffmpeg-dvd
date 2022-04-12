@@ -231,6 +231,7 @@ External library support:
   --enable-libdavs2        enable AVS2 decoding via libdavs2 [no]
   --enable-libdc1394       enable IIDC-1394 grabbing using libdc1394
                            and libraw1394 [no]
+  --enable-libdvdread      enable DVD reading using libdvdread [no]
   --enable-libfdk-aac      enable AAC de/encoding via libfdk-aac [no]
   --enable-libflite        enable flite (voice synthesis) support via libflite [no]
   --enable-libfontconfig   enable libfontconfig, useful for drawtext filter [no]
@@ -1774,6 +1775,7 @@ EXTERNAL_LIBRARY_LIST="
     libdav1d
     libdc1394
     libdrm
+    libdvdread
     libflite
     libfontconfig
     libfreetype
@@ -3448,6 +3450,7 @@ xv_outdev_deps="xlib"
 # protocols
 async_protocol_deps="threads"
 bluray_protocol_deps="libbluray"
+dvd_protocol_deps="libdvdread"
 ffrtmpcrypt_protocol_conflict="librtmp_protocol"
 ffrtmpcrypt_protocol_deps_any="gcrypt gmp openssl mbedtls"
 ffrtmpcrypt_protocol_select="tcp_protocol"
@@ -6163,6 +6166,8 @@ check_headers dxva2api.h -D_WIN32_WINNT=0x0600
 check_headers io.h
 enabled libdrm &&
     check_headers linux/dma-buf.h
+enabled libdvdread &&
+    require_pkg_config libdvdread dvdread dvdread/dvd_reader.h DVDOpen
 
 check_headers linux/perf_event.h
 check_headers libcrystalhd/libcrystalhd_if.h
