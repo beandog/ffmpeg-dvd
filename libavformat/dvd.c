@@ -145,7 +145,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
 
     av_log(h, AV_LOG_INFO, "selected title %d\n", dvd->title);
 
-    /* select title */
+    /* select video title set */
     dvd->title_set = dvd->vmg->tt_srpt->title[dvd->title - 1].title_set_nr;
 
     /* open DVD file */
