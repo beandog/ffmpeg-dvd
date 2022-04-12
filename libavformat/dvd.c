@@ -140,6 +140,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
 
     /* play first title if none is given or exceeds boundary */
     if (dvd->title < 1 || dvd->title > num_title_idx) {
+        av_log(h, AV_LOG_DEBUG, "title selection %d out of bounds, switching to title 1\n", dvd->title);
         dvd->title = 1;
     }
 
