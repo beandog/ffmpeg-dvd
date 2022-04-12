@@ -20,6 +20,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/*
+ * TODO
+ * Add (fix?) seeking
+ * Get size of title
+ * Add -chapter support
+ * Accurate errors / exits
+ * Process small / broken titles < 1 second (fex title 1 in HTTYD)
+ * Debug things starting at correct sector offset (title 16 is game trailer, but showing up on other tracks)
+ */
+
 #include <dvdread/dvd_reader.h>
 #include <dvdread/ifo_read.h>
 
