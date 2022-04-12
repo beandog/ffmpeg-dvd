@@ -139,7 +139,7 @@ static int dvd_open(URLContext *h, const char *path, int flags)
     }
 
     /* play first title if none is given or exceeds boundary */
-    if (dvd->title < 1 || dvd->title > num_title_idx || dvd->title > 99) {
+    if (dvd->title < 1 || dvd->title > num_title_idx) {
         dvd->title = 1;
     }
 
